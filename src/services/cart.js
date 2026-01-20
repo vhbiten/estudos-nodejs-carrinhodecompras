@@ -11,9 +11,20 @@ async function deleteItem(userCart, name) {
 }
 
 async function reduceQuantity(userCart, index){
-    const deleteIndex = index -1
-    if (index => 0 && userCart.length){
-        userCart.splice(deleteIndex, 1)
+    const reduceIndex = index - 1
+    if (index > 0 && reduceIndex < userCart.length){
+        if (userCart[reduceIndex].quantity > 1) {
+            userCart[reduceIndex].quantity -= 1
+        } else {
+            userCart.splice(reduceIndex, 1)
+        }
+    }
+}
+
+async function addQuantity(userCart, index){
+    const addIndex = index - 1
+    if (index > 0 && addIndex < userCart.length){
+        userCart[addIndex].quantity += 1
     }
 }
 
@@ -21,9 +32,9 @@ async function calculateTotal(userCart, type = "cart") {
     const result = userCart.reduce((total, item)=> total + item.subtotal(), 0)
 
     if (type === "cart"){
-        console.log(`Total do carrinho: ${result}`)
+        console.log(`Total do carrinho: R$ ${result}`)
     }else {
-        console.log(`Total da lista de desejos: ${result}`)
+        console.log(`Total da lista de desejos: R$ ${result}`)
     }
     
 }
@@ -46,6 +57,7 @@ export {
     addItem,
     deleteItem,
     reduceQuantity,
+    addQuantity,
     calculateTotal,
     displayCart
 }
